@@ -16,18 +16,10 @@ the largest HPC resources and emerging computing architectures.
 #dividimos el texto en palabras
 palabras = evaluar.split()
 
-while (p != 'resumen:'):
-    
-
-
-
-
-
-
-
 cant= 0
 cantResumen= 0
 encontre= False
+
 for p in palabras:
     if 'resumen' in p:
         encontre= True
@@ -36,6 +28,9 @@ for p in palabras:
             cant= cant + 1
         else:
             cantResumen= cantResumen + 1
+
+
+
 
 if (cant <= 11):
     print('ok')

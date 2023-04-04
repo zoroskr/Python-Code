@@ -18,9 +18,9 @@ useful linear algebra, Fourier transform, and random number capabilities'''
 
 lineas = readme_numpy.splitlines() #separamos el texto en lineas
 
-#for l in lineas:
-#    if 'https' in l or 'http' in l:
-#        print(l)
+for l in lineas:
+    if 'https' in l or 'http' in l:
+        print(l)
 
 texto = readme_numpy.lower() 
 palabras = texto.split()

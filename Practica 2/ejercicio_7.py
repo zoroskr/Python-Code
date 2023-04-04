@@ -19,4 +19,4 @@ for caracter in texto:
 palabras = texto.split()
 print (palabras)
 cant_p = len(palabras)
-print(cant_p) #como hago para contar palabras sin tomar los numeros?
+print(cant_p) #como hago para contar palabras sin tomar los numeros ni los signos que no son palabras?
