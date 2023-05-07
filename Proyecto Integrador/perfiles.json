@@ -3,20 +3,38 @@
         {
             "nombre": "Ana",
             "edad": 25,
-            "imagen": "C:/Users/elmun/Desktop/Zoros/Primer Semestre - 2do año/Python/Python Code/Python-Code/Proyecto Integrador/avatar_hombre.png",
+            "imagen": "C:/Users/elmun/Desktop/Zoros/Primer Semestre - 2do año/Python/Python Code/Python-Code/Proyecto Integrador/icons/princesa.png",
             "intereses": ["programación", "deporte", "música"]
         },
         {
             "nombre": "Juan",
             "edad": 30,
-            "imagen": "C:/Users/elmun/Desktop/Zoros/Primer Semestre - 2do año/Python/Python Code/Python-Code/Proyecto Integrador/avatar_hombre.png",
+            "imagen": "C:/Users/elmun/Desktop/Zoros/Primer Semestre - 2do año/Python/Python Code/Python-Code/Proyecto Integrador/icons/jake.png",
             "intereses": ["lectura", "viajes", "gastronomía"]
         },
         {
             "nombre": "Maria",
             "edad": 27,
-            "imagen": "C:/Users/elmun/Desktop/Zoros/Primer Semestre - 2do año/Python/Python Code/Python-Code/Proyecto Integrador/icon_add.png",
+            "imagen": "C:/Users/elmun/Desktop/Zoros/Primer Semestre - 2do año/Python/Python Code/Python-Code/Proyecto Integrador/icons/bill.png",
             "intereses": ["arte", "moda", "tecnología"]
+        },
+        {
+            "nombre": "Ramiro",
+            "edad": 30,
+            "imagen": "C:/Users/elmun/Desktop/Zoros/Primer Semestre - 2do año/Python/Python Code/Python-Code/Proyecto Integrador/icons/genio.png",
+            "intereses": ["lectura", "viajes", "gastronomía"]
+        },
+        {
+            "nombre": "Julian",
+            "edad": 30,
+            "imagen": "C:/Users/elmun/Desktop/Zoros/Primer Semestre - 2do año/Python/Python Code/Python-Code/Proyecto Integrador/icons/morty.png",
+            "intereses": ["lectura", "viajes", "gastronomía"]
+        },
+        {
+            "nombre": "Facundo",
+            "edad": 30,
+            "imagen": "C:/Users/elmun/Desktop/Zoros/Primer Semestre - 2do año/Python/Python Code/Python-Code/Proyecto Integrador/icons/princesa.png",
+            "intereses": ["lectura", "viajes", "gastronomía"]
         }
     ]
 }
