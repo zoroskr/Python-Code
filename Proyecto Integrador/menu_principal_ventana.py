@@ -2,7 +2,9 @@ import PySimpleGUI as sg
 import os
 import json
 import inicio_ventana
-
+import configuracion
+import generador_memes
+import editar_perfil
 
 class VentanaMenu:
 
@@ -12,19 +14,21 @@ class VentanaMenu:
 
         current_dir = os.path.abspath(__file__)
 
-        relative_path = "icons\\config.png"
-        relative_path_2 = "icons\\help.png"
+        relative_path = "botones/config.png"
+        relative_path_2 = "botones/help.png"
         config_img = os.path.join('./', relative_path)
         help_img = os.path.join('./', relative_path_2)
 
         '''Abrimos el archivo de perfiles, previamente generado, y nos guardamos los mismos'''
-        with open('perfiles.json', 'r', encoding='utf-8') as archivo: 
+        with open('perfil.json', 'r', encoding='utf-8') as archivo: 
             datos = json.load(archivo) #nos guardamos los perfiles del json
         
-        for perfil in datos['perfiles'][0:]:
-            if (perfil['nombre'] == perfil_act):
+        for perfil in datos[0:]:
+            if (perfil['nick'] == perfil_act):
                 perfil_boton = [sg.Button(enable_events=True, key=perfil['nombre'], button_color='white', border_width=0, image_filename=perfil['imagen'])]
+                break
 
+        self.perf=perfil_act
         '''Generamos todos los objetos con los que vamos a interactuar en la ventana'''
 
         etiquetar_imagenes = [sg.Button('Etiquetar Imagenes', key= 'imagenes')]
@@ -55,20 +59,31 @@ class VentanaMenu:
     
     '''Metodo que se encarga de iniciar la ventana'''
     def iniciar_ventana(self):
-        ok=False
         while True:
             event, values = self.window.read()
             if event == sg.WIN_CLOSED:
                 break
             elif event == 'salir':
-                ok = True
-                break
+                self.window.close()
+                inicio = inicio_ventana.VentanaPrincipal()
+                inicio.iniciar_ventana()
+            elif event == 'config':
+                self.window.close()
+                self.config=configuracion.Configuracion()
+                self.config.abrir_configuracion(self.perf)
+            elif event == 'meme':
+                self.window.close()
+                self.mem= generador_memes.GeneradorMemes()
+                self.mem.abrir_ventana(self.perf)
             elif event == 'help':
-                sg.Popup('''Esta ventana proporciona una navegación fluida entre las diferentes funcionalidades de la aplicación. En la parte superior de la ventana, se mostrará el perfil seleccionado, incluyendo su avatar y nombre. Al hacer clic en la imagen del perfil, se desplegará la ventana para editar el perfil (D - Editar perfil). El menú de opciones se encuentra en la parte inferior de la pantalla, y ofrece acceso a las funcionalidades principales de la aplicación. La configuración se puede acceder a través del botón correspondiente.''', 
-                title='Ayuda', )
+                sg.Popup('''Esta ventana proporciona una navegación fluida entre las diferentes funcionalidades de la aplicación. En la parte superior de la ventana,
+                 se mostrará el perfil seleccionado, incluyendo su avatar y nombre. Al hacer clic en la imagen del perfil, se desplegará la ventana para editar el perfil (D - Editar perfil). 
+                 El menú de opciones se encuentra en la parte inferior de la pantalla, y ofrece acceso a las funcionalidades principales de la aplicación. 
+                 La configuración se puede acceder a través del botón correspondiente.''', 
+                 title='Ayuda')
+            else:
+                self.window.close()
+                self.edit=editar_perfil.EditarPerfil(self.perf)
+                self.edit.iniciar_ventana(self.perf)
                 
         self.window.close()
-        '''Chequeamos que el break del while true se haya generado por un evento distinto a sg.WIN_CLOSED, y generamos otra ventana si es que fue asi'''
-        if (ok == True):
-            inicio = inicio_ventana.VentanaPrincipal()
-            inicio.iniciar_ventana()

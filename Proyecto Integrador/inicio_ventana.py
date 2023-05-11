@@ -2,7 +2,6 @@ import PySimpleGUI as sg
 import json
 import os
 import menu_principal_ventana
-
 class VentanaPrincipal:
 
     '''Metodo que se encarga de preparar la ventana previamente a ser iniciada, recibe un parametro opcional que nos indica a partir de que perfil mostrar en pantalla'''
@@ -12,8 +11,8 @@ class VentanaPrincipal:
 
         current_dir = os.path.abspath(__file__)
 
-        relative_path = "icons\\icon_add.png"
-        relative_path_2 = "icons\\ver_mas.png"
+        relative_path = "botones/icon_add.png"
+        relative_path_2 = "botones/ver_mas.png"
 
         icon_add = os.path.join('./', relative_path)
         ver_mas = os.path.join('./', relative_path_2)
@@ -21,10 +20,9 @@ class VentanaPrincipal:
 
         '''Abrimos el archivo de perfiles, previamente generado, y nos guardamos los mismos'''
 
-        with open('perfiles.json', 'r', encoding='utf-8') as archivo: 
+        with open('perfil.json', 'r', encoding='utf-8') as archivo: 
             datos = json.load(archivo)
 
-        
         '''Generamos todos los objetos con los que vamos a interactuar en la ventana'''
 
         agregar_perfil = sg.Button(enable_events=True, key='add', button_color='white', border_width=0, image_subsample=(4), image_filename=icon_add) #boton para añadir perfiles
@@ -32,11 +30,12 @@ class VentanaPrincipal:
 
         perfiles = [agregar_perfil]
 
-        if (indice_perfiles >= len(datos['perfiles'])):
-            indice_perfiles = len(datos['perfiles'])-2
+        if (indice_perfiles >= len(datos)):
+            indice_perfiles = len(datos)-1
+        
 
-        for perfil in datos['perfiles'][indice_perfiles:]:
-            perfil_boton = sg.Button(enable_events=True, key=perfil['nombre'], button_color='white', border_width=0, image_filename=perfil['imagen'])
+        for perfil in datos[indice_perfiles:]:
+            perfil_boton = sg.Button(enable_events=True, key=perfil['nick'], button_color='white', border_width=0, image_filename=perfil['imagen'])
             perfiles.append(perfil_boton)
 
         titulo = [sg.Text('UNLP Image', auto_size_text=True, text_color='black', background_color='white', font=('GabrielWeiss'))]
@@ -56,25 +55,19 @@ class VentanaPrincipal:
 
     '''Metodo que se encarga de iniciar la ventana'''
     def iniciar_ventana(self, cant=2):
-        menu_check = False
-        otros = False
         while True:
             event, values = self.window.read()
             if event == sg.WIN_CLOSED:
                 break
             elif event == 'otros':
-                otros = True
-                break
+                self.window.close()
+                self.__init__(cant)
+                self.iniciar_ventana(cant+2)
+            elif event == 'add':
+                None
             else:
-                menu_check = True
-                perfil_act = event
-                break
+                self.window.close()
+                menu = menu_principal_ventana.VentanaMenu(event)
+                menu.iniciar_ventana()
         self.window.close()
     
-        '''Chequeamos que el break del while true se haya generado por un evento distinto a sg.WIN_CLOSED, y generamos otra ventana si es que fue asi'''
-        if (menu_check == True):
-            menu = menu_principal_ventana.VentanaMenu(perfil_act)
-            menu.iniciar_ventana()
-        elif (otros == True):
-            self.__init__(cant)
-            self.iniciar_ventana(cant+2)
