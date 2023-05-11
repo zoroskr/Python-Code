@@ -4,7 +4,12 @@ import os
 import menu_principal_ventana
 
 class VentanaPrincipal:
+
+    '''Metodo que se encarga de preparar la ventana previamente a ser iniciada, recibe un parametro opcional que nos indica a partir de que perfil mostrar en pantalla'''
     def __init__(self, indice_perfiles=0):
+
+        '''Nos preparamos todas las rutas que vamos a usar en la ventana'''
+
         current_dir = os.path.abspath(__file__)
 
         relative_path = "icons\\icon_add.png"
@@ -13,8 +18,14 @@ class VentanaPrincipal:
         icon_add = os.path.join('./', relative_path)
         ver_mas = os.path.join('./', relative_path_2)
 
+
+        '''Abrimos el archivo de perfiles, previamente generado, y nos guardamos los mismos'''
+
         with open('perfiles.json', 'r', encoding='utf-8') as archivo: 
-            datos = json.load(archivo) #nos guardamos los perfiles del json
+            datos = json.load(archivo)
+
+        
+        '''Generamos todos los objetos con los que vamos a interactuar en la ventana'''
 
         agregar_perfil = sg.Button(enable_events=True, key='add', button_color='white', border_width=0, image_subsample=(4), image_filename=icon_add) #boton para añadir perfiles
         otros_perfiles = [sg.Button(enable_events=True, key='otros', button_color='white', border_width=0, size=(20,5), pad=(135,10), image_subsample=(3), image_filename=ver_mas)]
@@ -27,7 +38,6 @@ class VentanaPrincipal:
         for perfil in datos['perfiles'][indice_perfiles:]:
             perfil_boton = sg.Button(enable_events=True, key=perfil['nombre'], button_color='white', border_width=0, image_filename=perfil['imagen'])
             perfiles.append(perfil_boton)
-        #front end
 
         titulo = [sg.Text('UNLP Image', auto_size_text=True, text_color='black', background_color='white', font=('GabrielWeiss'))]
 
@@ -44,6 +54,7 @@ class VentanaPrincipal:
 
         self.window = sg.Window("UNLP Image", layout, background_color='white', size=(800,600))
 
+    '''Metodo que se encarga de iniciar la ventana'''
     def iniciar_ventana(self, cant=2):
         menu_check = False
         otros = False
@@ -59,7 +70,8 @@ class VentanaPrincipal:
                 perfil_act = event
                 break
         self.window.close()
-
+    
+        '''Chequeamos que el break del while true se haya generado por un evento distinto a sg.WIN_CLOSED, y generamos otra ventana si es que fue asi'''
         if (menu_check == True):
             menu = menu_principal_ventana.VentanaMenu(perfil_act)
             menu.iniciar_ventana()

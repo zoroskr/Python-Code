@@ -5,7 +5,11 @@ import inicio_ventana
 
 
 class VentanaMenu:
+
+    '''Metodo que se encarga de preparar la ventana previamente a ser iniciada, recibe un parametro que nos indica que perfil mostrar en pantalla'''
     def __init__(self, perfil_act):
+        '''Nos preparamos todas las rutas que vamos a usar en la ventana'''
+
         current_dir = os.path.abspath(__file__)
 
         relative_path = "icons\\config.png"
@@ -13,7 +17,7 @@ class VentanaMenu:
         config_img = os.path.join('./', relative_path)
         help_img = os.path.join('./', relative_path_2)
 
-        #front end
+        '''Abrimos el archivo de perfiles, previamente generado, y nos guardamos los mismos'''
         with open('perfiles.json', 'r', encoding='utf-8') as archivo: 
             datos = json.load(archivo) #nos guardamos los perfiles del json
         
@@ -21,7 +25,7 @@ class VentanaMenu:
             if (perfil['nombre'] == perfil_act):
                 perfil_boton = [sg.Button(enable_events=True, key=perfil['nombre'], button_color='white', border_width=0, image_filename=perfil['imagen'])]
 
-
+        '''Generamos todos los objetos con los que vamos a interactuar en la ventana'''
 
         etiquetar_imagenes = [sg.Button('Etiquetar Imagenes', key= 'imagenes')]
         generar_meme = [sg.Button('Generar Meme', key= 'meme')]
@@ -29,6 +33,8 @@ class VentanaMenu:
         salir = [sg.Button('Salir', key= 'salir')]
 
         config = [sg.Button(key= 'config', image_filename=config_img, border_width=0, button_color="white", image_subsample=(3))]
+        
+        
         ayuda = [sg.Button(key= 'help', image_filename=help_img, border_width=0, button_color="white")]
 
         columna_vacia = [sg.Column([], background_color='white', size=(400,215))]
@@ -46,7 +52,8 @@ class VentanaMenu:
 
         layout = [[column1, column2, column3, column4]]
         self.window = sg.Window("UNLP Image", layout, background_color='white', size=(800,600))
-
+    
+    '''Metodo que se encarga de iniciar la ventana'''
     def iniciar_ventana(self):
         ok=False
         while True:
@@ -56,8 +63,12 @@ class VentanaMenu:
             elif event == 'salir':
                 ok = True
                 break
+            elif event == 'help':
+                sg.Popup('''Esta ventana proporciona una navegación fluida entre las diferentes funcionalidades de la aplicación. En la parte superior de la ventana, se mostrará el perfil seleccionado, incluyendo su avatar y nombre. Al hacer clic en la imagen del perfil, se desplegará la ventana para editar el perfil (D - Editar perfil). El menú de opciones se encuentra en la parte inferior de la pantalla, y ofrece acceso a las funcionalidades principales de la aplicación. La configuración se puede acceder a través del botón correspondiente.''', 
+                title='Ayuda', )
+                
         self.window.close()
-
+        '''Chequeamos que el break del while true se haya generado por un evento distinto a sg.WIN_CLOSED, y generamos otra ventana si es que fue asi'''
         if (ok == True):
             inicio = inicio_ventana.VentanaPrincipal()
             inicio.iniciar_ventana()
