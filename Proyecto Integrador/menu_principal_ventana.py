@@ -5,6 +5,8 @@ import inicio_ventana
 import configuracion
 import generador_memes
 import editar_perfil
+import creador_de_collage
+import etiquetar_imagenes
 
 class VentanaMenu:
 
@@ -21,9 +23,9 @@ class VentanaMenu:
 
         '''Abrimos el archivo de perfiles, previamente generado, y nos guardamos los mismos'''
         with open('perfil.json', 'r', encoding='utf-8') as archivo: 
-            datos = json.load(archivo) #nos guardamos los perfiles del json
+            self.datos = json.load(archivo) #nos guardamos los perfiles del json
         
-        for perfil in datos[0:]:
+        for perfil in self.datos[0:]:
             if (perfil['nick'] == perfil_act):
                 perfil_boton = [sg.Button(enable_events=True, key=perfil['nombre'], button_color='white', border_width=0, image_filename=perfil['imagen'])]
                 break
@@ -81,6 +83,14 @@ class VentanaMenu:
                  El menú de opciones se encuentra en la parte inferior de la pantalla, y ofrece acceso a las funcionalidades principales de la aplicación. 
                  La configuración se puede acceder a través del botón correspondiente.''', 
                  title='Ayuda')
+            elif event == 'collage':
+                self.window.close()
+                self.collage= creador_de_collage.ventanaCreador()
+                self.collage.iniciar_ventana(self.perf)
+            elif event == 'imagenes':
+                self.window.close()
+                self.imag= etiquetar_imagenes.ventanaEtiquetar()
+                self.imag.iniciar_ventana(self.perf)
             else:
                 self.window.close()
                 self.edit=editar_perfil.EditarPerfil(self.perf)

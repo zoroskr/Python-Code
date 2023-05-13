@@ -2,6 +2,7 @@ import PySimpleGUI as sg
 import json
 import os
 import menu_principal_ventana
+import nuevoPerfil
 class VentanaPrincipal:
 
     '''Metodo que se encarga de preparar la ventana previamente a ser iniciada, recibe un parametro opcional que nos indica a partir de que perfil mostrar en pantalla'''
@@ -10,18 +11,14 @@ class VentanaPrincipal:
         '''Nos preparamos todas las rutas que vamos a usar en la ventana'''
 
         current_dir = os.path.abspath(__file__)
-
         relative_path = "botones/icon_add.png"
         relative_path_2 = "botones/ver_mas.png"
-
         icon_add = os.path.join('./', relative_path)
         ver_mas = os.path.join('./', relative_path_2)
 
-
         '''Abrimos el archivo de perfiles, previamente generado, y nos guardamos los mismos'''
-
         with open('perfil.json', 'r', encoding='utf-8') as archivo: 
-            datos = json.load(archivo)
+            self.datos = json.load(archivo)
 
         '''Generamos todos los objetos con los que vamos a interactuar en la ventana'''
 
@@ -30,11 +27,10 @@ class VentanaPrincipal:
 
         perfiles = [agregar_perfil]
 
-        if (indice_perfiles >= len(datos)):
-            indice_perfiles = len(datos)-1
-        
-
-        for perfil in datos[indice_perfiles:]:
+        if (indice_perfiles >= len(self.datos)):
+            indice_perfiles = 0
+    
+        for perfil in self.datos[indice_perfiles:]:
             perfil_boton = sg.Button(enable_events=True, key=perfil['nick'], button_color='white', border_width=0, image_filename=perfil['imagen'])
             perfiles.append(perfil_boton)
 
@@ -64,10 +60,11 @@ class VentanaPrincipal:
                 self.__init__(cant)
                 self.iniciar_ventana(cant+2)
             elif event == 'add':
-                None
+                self.window.close()
+                new=nuevoPerfil.NuevoPerfil()
+                new.iniciar_ventana()
             else:
                 self.window.close()
                 menu = menu_principal_ventana.VentanaMenu(event)
                 menu.iniciar_ventana()
         self.window.close()
-    
